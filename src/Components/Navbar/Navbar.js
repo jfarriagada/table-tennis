@@ -7,7 +7,7 @@ import Home from '../Home/Home'
 
 const Header = () => {
     return (
-        <nav className="navbar is-info" role="navigation" aria-label="main navigation">
+        <div className="navbar is-info" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
                 <a className="navbar-item"> TDM </a>
                 <div className="navbar-burger" data-target="navMenu">
@@ -18,13 +18,11 @@ const Header = () => {
             </div>
             <div className="navbar-menu" id="navMenu">
                 <div className="navbar-start">
-                    <a className="navbar-item"><Link to='/'> Inicio </Link></a>
-                </div>
-                <div className="navbar-end">
-                    <a className="navbar-item"><Link to='/login'> Login </Link></a>
+                    <div className="navbar-item"><Link to='/'> Inicio </Link></div>
+                    <div className="navbar-item"><Link to='/login'> Login </Link></div>
                 </div>
             </div>
-        </nav>
+        </div>
     ) 
 }
   
