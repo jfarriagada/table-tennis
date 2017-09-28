@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 // Components
 import Home from '../Home/Home'
 import Header from '../Header'
+import Open from '../Open/Open'
 // Firebase
 import firebase from 'firebase'
   
@@ -49,6 +50,7 @@ class Navbar extends Component {
                     user={this.props.user}
                     />
                 <Route exact path='/' component={Home} />
+                <Route exact path='/open' component={Open} />
             </div>
           </Router>
         )

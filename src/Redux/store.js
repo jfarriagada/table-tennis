@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from 'redux'
-
+// redux form
+import { reducer as formReducer } from 'redux-form'
 
 // reducers que devuelven un nuevo estado
 
@@ -19,6 +20,7 @@ const session = (state={}, action) => {
 }
 
 const reducer = combineReducers({
+    form: formReducer,
     session
 })
 
