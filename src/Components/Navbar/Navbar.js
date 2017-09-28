@@ -1,49 +1,82 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+// redux 
+import { connect } from 'react-redux'
 // Components
-import Login from '../Login/Login'
 import Home from '../Home/Home'
-
-
-const Header = () => {
-    return (
-        <div className="navbar is-info" role="navigation" aria-label="main navigation">
-            <div className="navbar-brand">
-                <a className="navbar-item"> TDM </a>
-                <div className="navbar-burger" data-target="navMenu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                </div>
-            </div>
-            <div className="navbar-menu" id="navMenu">
-                <div className="navbar-start">
-                    <div className="navbar-item"><Link to='/'> Inicio </Link></div>
-                    <div className="navbar-item"><Link to='/login'> Login </Link></div>
-                </div>
-            </div>
-        </div>
-    ) 
-}
+import Header from '../Header'
+// Firebase
+import firebase from 'firebase'
   
 
 class Navbar extends Component {
+
+    componentWillMount () {
+        firebase.auth().onAuthStateChanged(user => {
+          if(user){
+            this.props.auth(user)
+          } else {
+            this.props.logout()
+          }
+        })
+    }
+
+    handleAuth() {
+        console.log('handleAuth :D')
+        //this.props.auth()
+        const provider = new firebase.auth.GoogleAuthProvider()
+        
+        firebase.auth().signInWithRedirect(provider)
+        .then(result => console.log(`${result.user.email} ha iniciado sessión`))
+        .catch(error => console.log(`Error : ${error.code}: ${error.message}`))
+    }
+    
+    handleLogout() {
+        console.log('handleLogout :D')
+        //this.props.logout()
+        firebase.auth().signOut()
+        .then(result => console.log('Te has salido con éxito.'))
+        .catch(error => console.log(`Error : ${error.code}: ${error.message}`))
+    }
+
     render() {
         return (
           <Router>
             <div className="hero-head">
-                <Header />
+                <Header 
+                    onAuth={this.handleAuth.bind(this)}
+                    onLogout={this.handleLogout.bind(this)}
+                    user={this.props.user}
+                    />
                 <Route exact path='/' component={Home} />
-                <Route exact path='/login' component={Login} />
             </div>
           </Router>
         )
     }
   }
 
-export default Navbar
+const mapStateToProps = (state) => {
+    return {
+        user : state.session
+    }
+}
+  
+const mapDispatchToProps = (dispatch) => {
+    return {
+        auth: (user) => {
+            dispatch({type:'USER_AUTH', user:user})
+        },
+        logout: () => {
+            dispatch({type:'USER_LOGOUT'})
+        }
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
+  
 
 
+// navbar-burger for mobile
 document.addEventListener('DOMContentLoaded', function () {
     // Get all "navbar-burger" elements
     var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
