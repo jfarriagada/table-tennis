@@ -7,7 +7,7 @@ const Header = ({onAuth, onLogout, user}) => {
     function renderAuthButton(){
         console.log('renderAuthButton()')
         return (
-            <div className="navbar-item" onClick={onAuth}><Link to='/'> Entrar </Link></div>
+            <div className="navbar-item" onClick={onAuth}><Link to='/open'> Entrar </Link></div>
         )
     }
 
@@ -15,7 +15,11 @@ const Header = ({onAuth, onLogout, user}) => {
         console.log('renderLogoutButton()')
         console.log(user.displayName)
         return (
-            <div className="navbar-item" onClick={onLogout}>{user.displayName}<Link to='/'> Salir </Link></div>
+            <div className="navbar-start">
+                <div className="navbar-item"><Link to='/open'> Campeonatos </Link></div>
+                <div className="navbar-item">{user.displayName}</div>
+                <div className="navbar-item" onClick={onLogout}><Link to='/'> Salir </Link></div>
+            </div>
         )
     }
 
