@@ -11,10 +11,12 @@ const CreateOpen = (props) => {
     
 
     return(
-        <div className="column is-6">
-            <h2>Crear Campeonato</h2>
-            <OpenForm onSubmit={form} />
-        </div>
+        <section className="hero"> 
+            <div className="hero-body">        
+                <h1 className="title">Crear Campeonato</h1>
+                <OpenForm onSubmit={form} />
+            </div>
+        </section>
     )
 }
 

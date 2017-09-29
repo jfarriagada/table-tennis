@@ -27,21 +27,23 @@ const renderField = ({
   type,
   meta: { touched, error, warning }
 }) =>
-  <div>
-    <label>
+  <div className="field">
+    <label className="label">
       {label}
     </label>
     <div>
-      <input {...input} placeholder={label} type={type} />
+     <div className="control">
+        <input className="input" {...input} placeholder={label} type={type} />
+      </div>
       {touched &&
         ((error &&
-          <span>
+          <p className="help is-danger">
             {error}
-          </span>) ||
+          </p>) ||
           (warning &&
-            <span>
-              {warning}
-            </span>))}
+            <p className="help is-danger">
+                {warning}
+            </p>))}
     </div>
   </div>
 
@@ -52,8 +54,8 @@ const OpenForm = props => {
       <Field name="name" type="text" component={renderField} label="Nombre" />
       <Field name="city" type="text" component={renderField} label="Cuidad" />
       <Field name="category" type="text" component={renderField} label="Categoria" />      
-      <div>
-        <button type="submit" disabled={submitting}>
+      <div className="control">
+        <button className="button is-primary" type="submit" disabled={submitting}>
           Ir al Campeonato
         </button>
       </div>
