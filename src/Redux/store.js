@@ -19,9 +19,30 @@ const session = (state={}, action) => {
     }
 }
 
+const open = (state={}, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'OPEN_CREATED':
+            new_state = action.data
+            return new_state
+        case 'OPEN_ERROR_CREATED':
+            new_state = "Error al crear el Campeonato."
+            return new_state
+        /*case 'OPEN_LIST':
+            new_state = action.data
+            return new_state
+        case 'OPEN_ERROR_LIST':
+            new_state = "Error al cargar los Campeonatos."
+            return new_state*/
+        default:
+            return state
+    }
+}
+
 const reducer = combineReducers({
     form: formReducer,
-    session
+    session,
+    open
 })
 
 const store = createStore(reducer)

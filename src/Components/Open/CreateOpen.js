@@ -1,12 +1,24 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import firebase from 'firebase'
+import { DB_CONFIG } from '../../init_fb'
 // Component
 import OpenForm from './OpenForm'
-import { connect } from 'react-redux'
+
+
 
 const CreateOpen = (props) => {
 
-    const form = (datos) => {
-        console.log(datos)
+    const form = (data) => {
+        console.log(data)
+        
+        firebase.database().ref('open/').push({
+            username: data.name,
+            city: data.city,
+            category : data.category
+        })
+        props.create(data)
     }
     
 
@@ -22,11 +34,18 @@ const CreateOpen = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        open : state.open
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
+    return {
+        create: (data) => {
+            dispatch({type: 'OPEN_CREATED', data: data})
+        },
+        error: () => {
+            dispatch({type: 'OPEN_ERROR_CREATED'})
+        }
     }
 }
 

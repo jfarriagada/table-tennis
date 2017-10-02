@@ -5,18 +5,11 @@ import Navbar from './Components/Navbar/Navbar'
 // redux 
 import { connect } from 'react-redux'
 // Firebase
+import { DB_CONFIG } from './init_fb'
 import firebase from 'firebase'
 
 // Firebase config
-var config = {
-  apiKey: "AIzaSyAG7xpXKM5wMZtx7CWHss17y5dT1p3a6w8",
-  authDomain: "table-tennis-cl.firebaseapp.com",
-  databaseURL: "https://table-tennis-cl.firebaseio.com",
-  projectId: "table-tennis-cl",
-  storageBucket: "table-tennis-cl.appspot.com",
-  messagingSenderId: "56999184418"
-};
-firebase.initializeApp(config);
+firebase.initializeApp(DB_CONFIG);
 
 class App extends Component {
   render() {

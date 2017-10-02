@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const Open = () => {
+
+const ListOpen = () => {
     return(
         <section className="hero">
             <div className="hero-body">
@@ -15,4 +17,21 @@ const Open = () => {
     )
 }
 
-export default Open
+const mapStateToProps = (state) => {
+    return {
+        open : state.open
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        load_data: () => {
+            dispatch({type: 'OPEN_LIST'})
+        },
+        error: () => {
+            dispatch({type: 'OPEN_ERROR_LIST'})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListOpen)
