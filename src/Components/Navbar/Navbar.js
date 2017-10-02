@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import Home from '../Home/Home'
 import Header from '../Header'
 import Open from '../Open/Open'
+import OpenId from '../Open/OpenId'
 // Firebase
 import firebase from 'firebase'
   
@@ -51,6 +52,7 @@ class Navbar extends Component {
                     />
                 <Route exact path='/' component={Home} />
                 <Route exact path='/open' component={Open} />
+                <Route exact path='/open/:id' component={OpenId} />
             </div>
           </Router>
         )

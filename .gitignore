@@ -1,7 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # init firebase key
-/public/init_fb.js
+/src/init_fb.js
 
 # dependencies
 /node_modules
