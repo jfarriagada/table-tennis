@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import firebase from 'firebase'
 import { DB_CONFIG } from '../../init_fb'
+import { reset } from 'redux-form'
 // Component
 import OpenForm from './OpenForm'
 
@@ -14,11 +15,16 @@ const CreateOpen = (props) => {
         console.log(data)
         
         firebase.database().ref('open/').push({
-            username: data.name,
+            user_uid: props.user.uid,
+            name: data.name,
             city: data.city,
-            category : data.category
+            category : data.category,
         })
-        props.create(data)
+        .then(function(response){
+            console.log(response)
+            props.clear()
+        })
+        .catch(error => console.log(error))
     }
     
 
@@ -34,18 +40,15 @@ const CreateOpen = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        open : state.open
+        user : state.session
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        create: (data) => {
-            dispatch({type: 'OPEN_CREATED', data: data})
+        clear: () => {
+            dispatch(reset('syncValidation'))
         },
-        error: () => {
-            dispatch({type: 'OPEN_ERROR_CREATED'})
-        }
     }
 }
 

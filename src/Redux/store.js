@@ -19,21 +19,15 @@ const session = (state={}, action) => {
     }
 }
 
-const open = (state={}, action) => {
+const open = (state=[], action) => {
     var new_state = Object.assign({}, state)
     switch (action.type) {
-        case 'OPEN_CREATED':
-            new_state = action.data
+        case 'OPEN_LIST':
+            new_state = state.concat(action.data)
             return new_state
-        case 'OPEN_ERROR_CREATED':
-            new_state = "Error al crear el Campeonato."
+        case 'OPEN_CLEAR':
+            new_state = []
             return new_state
-        /*case 'OPEN_LIST':
-            new_state = action.data
-            return new_state
-        case 'OPEN_ERROR_LIST':
-            new_state = "Error al cargar los Campeonatos."
-            return new_state*/
         default:
             return state
     }
