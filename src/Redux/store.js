@@ -33,10 +33,22 @@ const open = (state=[], action) => {
     }
 }
 
+const open_id = (state={}, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'GET_OPEN_ID':
+            new_state = action.data
+            return new_state
+        default:
+            return state
+    }
+}
+
 const reducer = combineReducers({
     form: formReducer,
     session,
-    open
+    open,
+    open_id
 })
 
 const store = createStore(reducer)

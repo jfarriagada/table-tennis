@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import firebase from 'firebase'
-import { DB_CONFIG } from '../../init_fb'
 import { reset } from 'redux-form'
 // Component
 import OpenForm from './OpenForm'
