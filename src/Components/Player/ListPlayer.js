@@ -20,12 +20,22 @@ class ListPlayer extends Component {
             list = this.props.player.map((p) => {
                 var player = p.val()
                 return(
-                    <p key={p.key}>{player.name} - {player.club}</p>
+                    <tbody key={p.key}>
+                        <tr>
+                            <td>#</td>
+                            <td>{player.name}</td>
+                            <td>{player.club}</td>
+                        </tr>
+                    </tbody>
                 )
             })
         }else {
             return (
-                <h1>no hay datos</h1>
+                <tbody>
+                    <tr>
+                        <td>No hay Jugadores inscritos.</td>
+                    </tr>
+                </tbody>
             )
         }
         return list
@@ -37,7 +47,16 @@ class ListPlayer extends Component {
             <section className="hero">
                 <div className="hero-body">
                     <b className="title is-4">Jugadores</b>
-                    {this.list_player()}
+                    <table className="table is-narrow">
+                        <thead>
+                            <tr>
+                                <th><abbr title="Position">Pos</abbr></th>
+                                <th>Nombre</th>
+                                <th><abbr title="club">Club</abbr></th>
+                            </tr>
+                        </thead>
+                        {this.list_player()}
+                    </table>
                 </div>
             </section>
         )
