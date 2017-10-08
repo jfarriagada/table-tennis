@@ -1,32 +1,43 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 
 
 class ListPlayer extends Component {
 
-    componentDidMount = () => {
-        //this.props.load_data() 
+    componentDidMount(){
+        this.props.load_players(this.props.open_key)
     }
 
-    /*list_open = () => {
-        const list = this.props.open.map((o) => {
-            var open = o.val()
-            return(
-                <h2 key={o.key} className="subtitle"><Link to={`open/${o.key}`}>{open.name} - {open.city} - {open.category}</Link></h2>
+    componentWillUnmount(){
+        this.props.clear_data()
+    }
+
+    list_player = () => {
+        var list
+        if(this.props.player.length !== 0){
+            list = this.props.player.map((p) => {
+                var player = p.val()
+                return(
+                    <p key={p.key}>{player.name} - {player.club}</p>
+                )
+            })
+        }else {
+            return (
+                <h1>no hay datos</h1>
             )
-        })
+        }
         return list
-    }*/
+    }
     
 
     render(){
         return(
             <section className="hero">
                 <div className="hero-body">
-                    <b className="title is-4">Jugadores</b>    
-    
+                    <b className="title is-4">Jugadores</b>
+                    {this.list_player()}
                 </div>
             </section>
         )
@@ -35,25 +46,23 @@ class ListPlayer extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        //open : state.open,
+        open_key: state.open_key,
+        player: state.player
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        /*load_data: () => {
-            var ref = firebase.database().ref('open/').limitToLast(7)
+        load_players: (open_key) => {
+            console.log(open_key + 'dispatch')
+            var ref = firebase.database().ref('open/'+ open_key +'/players')
             ref.on('child_added', function(snapshot, prevChildKey) {
-                var open = snapshot.val()
-                console.log(open.name)
-                console.log(open.city)
-                console.log(open.category)
-                console.log(snapshot.key)
-                console.log(open.user_uid)
-
-                dispatch({type: 'OPEN_LIST', data: snapshot})
+                dispatch({type: 'PLAYER_LIST', data: snapshot})
             })
-        }*/
+        },
+        clear_data: () => {
+            dispatch({type: 'PLAYER_CLEAR'})
+        }
     }
 }
 

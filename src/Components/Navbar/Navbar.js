@@ -24,8 +24,6 @@ class Navbar extends Component {
     }
 
     handleAuth() {
-        console.log('handleAuth :D')
-        //this.props.auth()
         const provider = new firebase.auth.GoogleAuthProvider()
         
         firebase.auth().signInWithRedirect(provider)
@@ -34,8 +32,6 @@ class Navbar extends Component {
     }
     
     handleLogout() {
-        console.log('handleLogout :D')
-        //this.props.logout()
         firebase.auth().signOut()
         .then(result => console.log('Te has salido con éxito.'))
         .catch(error => console.log(`Error : ${error.code}: ${error.message}`))

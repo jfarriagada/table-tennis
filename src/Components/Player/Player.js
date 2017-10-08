@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 // Components
 import ListPlayer from './ListPlayer'
@@ -8,40 +7,25 @@ import CreatePlayer from './CreatePlayer'
 
 class Player extends Component {
 
-    componentDidMount = () => {
+    componentWillMount(){
         this.props.get_open()
+        this.props.get_open_key()
+    }
+
+    componentWillUnmount(){
+        this.props.clear_open_key()
     }
     
 
     render(){
         return(
             <div>
-                {/*<section className="hero is-primary">
-                    <div className="hero-body">
-                        <div className="container">
-                            <div className="columns is-vcentered">
-                                <div className="column">
-                                    <p className="title">{this.props.open_id.name} - {this.props.open_id.city}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <nav className="navbar has-shadow">
-                    <div className="container">
-                        <div className="navbar-tabs">
-                            <a className="navbar-item is-tab" href={`/open/${this.props.get_open_key()}/players`}> Jugadores </a>
-                            <a className="navbar-item is-tab" href='/'> Grupos </a>
-                            <a className="navbar-item is-tab" href='/'> Llave </a>
-                        </div>
-                    </div>
-                </nav>*/}
                 <div className="columns">
                     <div className="column">
                         <nav className="navbar has-shadow">
                             <div className="container">
                                 <div className="navbar-tabs">
-                                    <a className="navbar-item is-tab" href={`/open/${this.props.get_open_key()}/players`}> Jugadores </a>
+                                    <a className="navbar-item is-tab" href={`/open/${this.props.open_key}/players`}> Jugadores </a>
                                     <a className="navbar-item is-tab" href='/'> Grupos </a>
                                     <a className="navbar-item is-tab" href='/'> Llave </a>
                                 </div>
@@ -49,7 +33,7 @@ class Player extends Component {
                         </nav>
                     </div>
                     <div className="column">
-                        <h1 className="title">{this.props.open_id.name} - {this.props.open_id.city}</h1>
+                        <p className="title">{this.props.open_item.name} - {this.props.open_item.city}</p>
                     </div>
                 </div>
                 <div className="columns">
@@ -63,7 +47,8 @@ class Player extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        open_id : state.open_id
+        open_item : state.open_item,
+        open_key : state.open_key
     }
 }
 
@@ -73,11 +58,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             firebase.database().ref('/open/' + ownProps.match.params.id).once('value')
             .then(function(snapshot) {
                 var open = snapshot.val() 
-                dispatch({type:'GET_OPEN_ID', data: open})
+                dispatch({type:'OPEN_ITEM', data: open})
             })
         },
         get_open_key: () => {
-            return ownProps.match.params.id
+            dispatch({type:'OPEN_KEY', data: ownProps.match.params.id})
+        },
+        clear_open_key: () => {
+            dispatch({type: 'OPEN_KEY_CLEAR'})
         }
     }
 }

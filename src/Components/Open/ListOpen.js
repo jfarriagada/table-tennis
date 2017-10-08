@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom'
 
 class ListOpen extends Component {
 
-    componentDidMount = () => {
+    componentDidMount(){
         this.props.load_data() 
     }
 
-    componentWillMount = () => {
+    componentWillUnmount(){
         this.props.clear_data()
     }
     
@@ -51,13 +51,6 @@ const mapDispatchToProps = (dispatch) => {
         load_data: () => {
             var ref = firebase.database().ref('open/').limitToLast(7)
             ref.on('child_added', function(snapshot, prevChildKey) {
-                var open = snapshot.val()
-                console.log(open.name)
-                console.log(open.city)
-                console.log(open.category)
-                console.log(snapshot.key)
-                console.log(open.user_uid)
-
                 dispatch({type: 'OPEN_LIST', data: snapshot})
             })
         },

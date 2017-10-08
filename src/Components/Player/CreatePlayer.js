@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
 import { reset } from 'redux-form'
@@ -12,8 +12,7 @@ const CreatePlayer = (props) => {
     const form = (data) => {
         console.log(data)
         
-        /*firebase.database().ref('open/player/').push({
-            user_uid: props.user.uid,
+        firebase.database().ref(`open/${props.open_key}/players`).push({
             name: data.name,
             club: data.club,
             category: data.category
@@ -22,7 +21,7 @@ const CreatePlayer = (props) => {
             console.log(response)
             props.clear()
         })
-        .catch(error => console.log(error))*/
+        .catch(error => console.log(error))
     }
     
 
@@ -38,6 +37,7 @@ const CreatePlayer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        open_key: state.open_key
     }
 }
 

@@ -33,11 +33,39 @@ const open = (state=[], action) => {
     }
 }
 
-const open_id = (state={}, action) => {
+const open_item = (state={}, action) => {
     var new_state = Object.assign({}, state)
     switch (action.type) {
-        case 'GET_OPEN_ID':
+        case 'OPEN_ITEM':
             new_state = action.data
+            return new_state
+        default:
+            return state
+    }
+}
+
+const open_key = (state=[], action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'OPEN_KEY':
+            new_state = action.data
+            return new_state
+        case 'OPEN_KEY_CLEAR':
+            new_state = []
+            return new_state
+        default:
+            return state
+    }
+}
+
+const player = (state=[], action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'PLAYER_LIST':
+            new_state = state.concat(action.data)
+            return new_state
+        case 'PLAYER_CLEAR':
+            new_state = []
             return new_state
         default:
             return state
@@ -48,7 +76,9 @@ const reducer = combineReducers({
     form: formReducer,
     session,
     open,
-    open_id
+    open_item,
+    open_key,
+    player
 })
 
 const store = createStore(reducer)
