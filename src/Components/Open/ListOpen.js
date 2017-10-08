@@ -1,35 +1,61 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import firebase from 'firebase'
+import { Link } from 'react-router-dom'
 
 
-const ListOpen = () => {
-    return(
-        <section className="hero">
-            <div className="hero-body">
-                <div className="">
-                    <h1 className="title">Mis Campeonatos</h1> <br/>
-                    <h2 className="subtitle">Open - Valdivia - 23 Octubre 2017</h2>
-                    <h2 className="subtitle">Open - Valdivia - 23 Octubre 2017</h2>
-                    <h2 className="subtitle">Open - Valdivia - 23 Octubre 2017</h2>
+class ListOpen extends Component {
+
+    componentDidMount(){
+        this.props.load_data() 
+    }
+
+    componentWillUnmount(){
+        this.props.clear_data()
+    }
+    
+
+    list_open = () => {
+        const list = this.props.open.map((o) => {
+            var open = o.val()
+            return(
+                <h2 key={o.key} className="subtitle"><Link to={`open/${o.key}/players`}>{open.name} - {open.city} - {open.category}</Link></h2>
+            )
+        })
+        return list
+    }
+    
+
+    render(){
+        return(
+            <section className="hero">
+                <div className="hero-body">
+                    <div className="">
+                        <h1 className="title">Mis Campeonatos</h1> <br/>
+                        {this.list_open()}
+                    </div>
                 </div>
-            </div>
-        </section>
-    )
+            </section>
+        )
+    }    
 }
 
 const mapStateToProps = (state) => {
     return {
-        open : state.open
+        open : state.open,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         load_data: () => {
-            dispatch({type: 'OPEN_LIST'})
+            var ref = firebase.database().ref('open/').limitToLast(7)
+            ref.on('child_added', function(snapshot, prevChildKey) {
+                dispatch({type: 'OPEN_LIST', data: snapshot})
+            })
         },
-        error: () => {
-            dispatch({type: 'OPEN_ERROR_LIST'})
+        clear_data: () => {
+            dispatch({type: 'OPEN_CLEAR'})
         }
     }
 }

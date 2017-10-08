@@ -5,14 +5,12 @@ import { Link } from 'react-router-dom'
 const Header = ({onAuth, onLogout, user}) => {
     
     function renderAuthButton(){
-        console.log('renderAuthButton()')
         return (
             <div className="navbar-item" onClick={onAuth}><Link to='/open'> Entrar </Link></div>
         )
     }
 
     function renderLogoutButton(){
-        console.log('renderLogoutButton()')
         console.log(user.displayName)
         return (
             <div className="navbar-start">
@@ -27,7 +25,7 @@ const Header = ({onAuth, onLogout, user}) => {
     return (
         <div className="navbar is-info" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <a className="navbar-item"> TDM </a>
+                <a className="navbar-item"> Table Tennis Open </a>
                 <div className="navbar-burger" data-target="navMenu">
                         <span></span>
                         <span></span>

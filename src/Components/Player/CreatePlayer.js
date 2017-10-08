@@ -3,20 +3,19 @@ import { connect } from 'react-redux'
 import firebase from 'firebase'
 import { reset } from 'redux-form'
 // Component
-import OpenForm from './OpenForm'
+import PlayerForm from './PlayerForm'
 
 
 
-const CreateOpen = (props) => {
+const CreatePlayer = (props) => {
 
     const form = (data) => {
         console.log(data)
         
-        firebase.database().ref('open/').push({
-            user_uid: props.user.uid,
+        firebase.database().ref(`open/${props.open_key}/players`).push({
             name: data.name,
-            city: data.city,
-            category : data.category,
+            club: data.club,
+            category: data.category
         })
         .then(function(response){
             console.log(response)
@@ -29,8 +28,8 @@ const CreateOpen = (props) => {
     return(
         <section className="hero"> 
             <div className="hero-body">        
-                <h1 className="title">Crear Campeonato</h1>
-                <OpenForm onSubmit={form} />
+                <b className="title is-4">Crear Jugador</b>
+                <PlayerForm onSubmit={form} />
             </div>
         </section>
     )
@@ -38,16 +37,16 @@ const CreateOpen = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        user : state.session
+        open_key: state.open_key
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         clear: () => {
-            dispatch(reset('syncValidation'))
+            dispatch(reset('syncValidationPlayer'))
         },
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateOpen)
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayer)

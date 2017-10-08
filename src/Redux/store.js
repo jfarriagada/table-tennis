@@ -19,21 +19,54 @@ const session = (state={}, action) => {
     }
 }
 
-const open = (state={}, action) => {
+const open = (state=[], action) => {
     var new_state = Object.assign({}, state)
     switch (action.type) {
-        case 'OPEN_CREATED':
+        case 'OPEN_LIST':
+            new_state = state.concat(action.data)
+            return new_state
+        case 'OPEN_CLEAR':
+            new_state = []
+            return new_state
+        default:
+            return state
+    }
+}
+
+const open_item = (state={}, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'OPEN_ITEM':
             new_state = action.data
             return new_state
-        case 'OPEN_ERROR_CREATED':
-            new_state = "Error al crear el Campeonato."
-            return new_state
-        /*case 'OPEN_LIST':
+        default:
+            return state
+    }
+}
+
+const open_key = (state=[], action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'OPEN_KEY':
             new_state = action.data
             return new_state
-        case 'OPEN_ERROR_LIST':
-            new_state = "Error al cargar los Campeonatos."
-            return new_state*/
+        case 'OPEN_KEY_CLEAR':
+            new_state = []
+            return new_state
+        default:
+            return state
+    }
+}
+
+const player = (state=[], action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'PLAYER_LIST':
+            new_state = state.concat(action.data)
+            return new_state
+        case 'PLAYER_CLEAR':
+            new_state = []
+            return new_state
         default:
             return state
     }
@@ -42,7 +75,10 @@ const open = (state={}, action) => {
 const reducer = combineReducers({
     form: formReducer,
     session,
-    open
+    open,
+    open_item,
+    open_key,
+    player
 })
 
 const store = createStore(reducer)

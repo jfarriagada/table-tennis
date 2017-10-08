@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Home from '../Home/Home'
 import Header from '../Header'
 import Open from '../Open/Open'
-import OpenId from '../Open/OpenId'
+import Player from '../Player/Player'
 // Firebase
 import firebase from 'firebase'
   
@@ -24,8 +24,6 @@ class Navbar extends Component {
     }
 
     handleAuth() {
-        console.log('handleAuth :D')
-        //this.props.auth()
         const provider = new firebase.auth.GoogleAuthProvider()
         
         firebase.auth().signInWithRedirect(provider)
@@ -34,8 +32,6 @@ class Navbar extends Component {
     }
     
     handleLogout() {
-        console.log('handleLogout :D')
-        //this.props.logout()
         firebase.auth().signOut()
         .then(result => console.log('Te has salido con éxito.'))
         .catch(error => console.log(`Error : ${error.code}: ${error.message}`))
@@ -52,7 +48,7 @@ class Navbar extends Component {
                     />
                 <Route exact path='/' component={Home} />
                 <Route exact path='/open' component={Open} />
-                <Route exact path='/open/:id' component={OpenId} />
+                <Route exact path='/open/:id/players' component={Player} />
             </div>
           </Router>
         )
