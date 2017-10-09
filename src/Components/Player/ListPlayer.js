@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
-//import { Link } from 'react-router-dom'
 
 
 class ListPlayer extends Component {
 
     componentDidMount(){
         this.props.load_players(this.props.open_key)
+        console.log('list player: componentDidMount()')
     }
 
-    componentWillUnmount(){
+    componentWillMount(){
         this.props.clear_data()
+        console.log('list player componentWillUnmount')
     }
 
     list_player = () => {
@@ -75,7 +76,7 @@ const mapDispatchToProps = (dispatch) => {
         load_players: (open_key) => {
             console.log(open_key + 'dispatch')
             var ref = firebase.database().ref('open/'+ open_key +'/players')
-            ref.on('child_added', function(snapshot, prevChildKey) {
+            ref.on('child_added', function(snapshot) {
                 dispatch({type: 'PLAYER_LIST', data: snapshot})
             })
         },

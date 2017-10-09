@@ -4,38 +4,31 @@ import firebase from 'firebase'
 // Components
 import ListPlayer from './ListPlayer'
 import CreatePlayer from './CreatePlayer'
+import OpenId from '../Open/OpenId'
 
 class Player extends Component {
 
     componentWillMount(){
         this.props.get_open()
         this.props.get_open_key()
+        console.log('player: componentWillMount()')
     }
-
+    
+    
     componentWillUnmount(){
-        this.props.clear_open_key()
+        //this.props.clear_open_key()
+        //this.props.clear_open_item()
+        console.log('player componentWillUnmount()')
     }
     
 
     render(){
         return(
             <div>
-                <div className="columns">
-                    <div className="column">
-                        <nav className="navbar has-shadow">
-                            <div className="container">
-                                <div className="navbar-tabs">
-                                    <a className="navbar-item is-tab" href={`/open/${this.props.open_key}/players`}> Jugadores </a>
-                                    <a className="navbar-item is-tab" href='/'> Grupos </a>
-                                    <a className="navbar-item is-tab" href='/'> Llave </a>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                    <div className="column">
-                        <p className="title">{this.props.open_item.name} - {this.props.open_item.city}</p>
-                    </div>
-                </div>
+                <OpenId 
+                    open_key={this.props.open_key} 
+                    open_item_name={this.props.open_item.name} 
+                    open_item_city={this.props.open_item.city} />
                 <div className="columns">
                     <CreatePlayer />
                     <ListPlayer />    
