@@ -26,6 +26,7 @@ class ListPlayer extends Component {
                             <td>#</td>
                             <td>{player.name}</td>
                             <td>{player.club}</td>
+                            <td>{player.cabeza_serie ? "Si" :  "No"}</td>
                         </tr>
                     </tbody>
                 )
@@ -54,6 +55,7 @@ class ListPlayer extends Component {
                                 <th><abbr title="Position">Pos</abbr></th>
                                 <th>Nombre</th>
                                 <th><abbr title="club">Club</abbr></th>
+                                <th><abbr title="cabeza_serie">CS</abbr></th>
                             </tr>
                         </thead>
                         {this.list_player()}
