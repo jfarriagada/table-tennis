@@ -18,6 +18,10 @@ const validate = values => {
   } else if (values.category.length > 70) {
     errors.category = 'Debe contener 70 caracteres o menos.'
   }
+  if (values.cabeza_serie === undefined) {
+      console.log(values.cabeza_serie)
+      values.cabeza_serie = false
+  }
   return errors
 }
 
@@ -47,13 +51,26 @@ const renderField = ({
     </div>
   </div>
 
+const CheckBoxField = ({
+  input,
+  label,
+  type,
+  meta: { touched }
+}) =>
+  <div className="field">
+    <label className="label">
+      {label} <input className="checkbox" {...input} type={type} />
+    </label>
+  </div>
+
 const PlayerForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <Field name="name" type="text" component={renderField} label="Nombre" />
       <Field name="club" type="text" component={renderField} label="Club" />
-      <Field name="category" type="text" component={renderField} label="Categoria" />      
+      <Field name="category" type="text" component={renderField} label="Categoria" /> 
+      <Field name="cabeza_serie" type="checkbox" component={CheckBoxField} label="Cabeza de serie" />      
       <div className="control">
         <button className="button is-primary" type="submit" disabled={submitting}>
           Inscribir

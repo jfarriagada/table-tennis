@@ -15,7 +15,8 @@ const CreatePlayer = (props) => {
         firebase.database().ref(`open/${props.open_key}/players`).push({
             name: data.name,
             club: data.club,
-            category: data.category
+            category: data.category,
+            cabeza_serie: data.cabeza_serie
         })
         .then(function(response){
             console.log(response)
