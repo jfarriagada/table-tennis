@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import firebase from 'firebase'
 // Components
 import OpenId from '../Open/OpenId'
+import CreateGrupo from './CreateGrupo'
 
 class Grupo extends Component {
     
@@ -15,6 +16,7 @@ class Grupo extends Component {
                     open_item_city={this.props.open_item.city} />
                     <div className="columns">
                         <h1 className="title">GRUPO</h1>
+                        <CreateGrupo />
                     </div>
             </div>
         )
