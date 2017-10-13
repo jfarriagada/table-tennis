@@ -1,0 +1,17 @@
+GRUPO
++ 4 jugadores
+    - 1 jugador cabeza de serie
+    - 3 jugadores no cabeza de serie
++ El nombre del grupo son letras sucesivas del abecedario
++ Si no hay jugadoes CS para el grupo, se eligen jugadores no CS 
+
+    - 2 Arrays
+        * Jugadores cabezas de serie
+        * Jugadores no cabezas de serie
+
+SET
++ 2 Ptos ganador
++ 0 Ptos perdedor
+
+ABECEDARIO 
+a b c d e f g h i j k l m n ñ o p q r s t u v w x y z
