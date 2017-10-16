@@ -19,7 +19,7 @@ class ListOpen extends Component {
         const list = this.props.open.map((o) => {
             var open = o.val()
             return(
-                <h2 key={o.key} className="subtitle"><Link to={`/open/${o.key}/players`}>{open.name} - {open.city} - {open.category}</Link></h2>
+                <h2 key={o.key} className="subtitle"><Link to={`/open/${o.key}/openid`}>{open.name} - {open.city} - {open.category}</Link></h2>
             )
         })
         return list
