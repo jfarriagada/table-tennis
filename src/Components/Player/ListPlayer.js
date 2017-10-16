@@ -7,21 +7,20 @@ class ListPlayer extends Component {
 
     componentDidMount(){
         this.props.load_players(this.props.open_key)
-        console.log('list player: componentDidMount()')
+        console.log("list : componentDidMount")
     }
 
-    componentWillMount(){
+    componentWillUnmount(){
         this.props.clear_data()
-        console.log('list player componentWillUnmount')
+        console.log("list : componentWillUnmount")
     }
 
     list_player = () => {
         var list
         if(this.props.player.length !== 0){
-            list = this.props.player.map((p) => {
-                var player = p.val()
+            list = this.props.player.map((player, value) => {
                 return(
-                    <tbody key={p.key}>
+                    <tbody key={value}>
                         <tr>
                             <td>#</td>
                             <td>{player.name}</td>
@@ -76,14 +75,20 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         load_players: (open_key) => {
-            console.log(open_key + 'dispatch')
-            var ref = firebase.database().ref('open/'+ open_key +'/players')
-            ref.on('child_added', function(snapshot) {
-                dispatch({type: 'PLAYER_LIST', data: snapshot})
+            console.log('dispatch load players')
+            var ref = firebase.database().ref("open/"+ open_key +"/players")
+            ref.on("child_added", function(snapshot, prevChildKey) {
+                var players = snapshot.val()
+                //console.log(snapshot.val())
+                dispatch({type: 'PLAYER_LIST', data: players})
             })
+
         },
         clear_data: () => {
             dispatch({type: 'PLAYER_CLEAR'})
+        },
+        clear_open_key: () => {
+            dispatch({type: 'OPEN_KEY_CLEAR'})
         }
     }
 }

@@ -8,7 +8,6 @@ const session = (state={}, action) => {
     var new_state = Object.assign({}, state)
     switch (action.type) {
         case 'USER_AUTH':
-            console.log('dispatch -> store user auth')
             new_state = action.user
             return new_state
         case 'USER_LOGOUT':
@@ -63,6 +62,7 @@ const player = (state=[], action) => {
     switch (action.type) {
         case 'PLAYER_LIST':
             new_state = state.concat(action.data)
+            console.log(action.data)
             return new_state
         case 'PLAYER_CLEAR':
             new_state = []

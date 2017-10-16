@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         clear: () => {
             dispatch(reset('syncValidationPlayer'))
-        },
+        }
     }
 }
 

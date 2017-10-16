@@ -17,10 +17,8 @@ class CreateGrupo extends Component {
             Si ha cambiado se actualizan los grupos, si no ha cambiado quedan igual
         */
         var players = firebase.database().ref(`open/${this.props.open_key}/players`)
-        players.on('child_removed', function(snapshot) {
-            var newPost = snapshot.val();
-            console.log("Author: " + newPost);
-            console.log("CAMBIOOOOOOOOOOOOOOOOOO")
+        players.on('child_added', function(snapshot) {
+
         })
         
         
@@ -109,7 +107,6 @@ class CreateGrupo extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user : state.session,
         open_key: state.open_key,
         player: state.player
     }
