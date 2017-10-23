@@ -16,10 +16,10 @@ class CreateGrupo extends Component {
             Detectar si el numero de Jugadores ha cambiado,
             Si ha cambiado se actualizan los grupos, si no ha cambiado quedan igual
         */
-        var players = firebase.database().ref(`open/${this.props.open_key}/players`)
+        /*var players = firebase.database().ref(`open/${this.props.open_key}/players`)
         players.on('child_added', function(snapshot) {
 
-        })
+        })*/
         
         
 
@@ -79,13 +79,16 @@ class CreateGrupo extends Component {
                 }  
             }
         }
+    }   
+
+    componentWillUnmount(){
+        this.props.clear_players()
     }
+    
 
     // Crear arrays de jugadores cabezas se serie y no cabezas de serie
     list_player = () => {
-        const list = this.props.player.map((p) => {
-            var player = p.val()
-
+        const list = this.props.player.map((player) => {
             if(player.cabeza_serie === true){
                 players_cs.push(player)
             } else {
@@ -114,6 +117,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        clear_players: () => {
+            dispatch({type: 'PLAYER_CLEAR'})
+        }
     }
 }
 

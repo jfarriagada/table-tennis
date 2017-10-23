@@ -7,12 +7,10 @@ class ListPlayer extends Component {
 
     componentDidMount(){
         this.props.load_players(this.props.open_key)
-        console.log("list : componentDidMount")
     }
 
     componentWillUnmount(){
-        this.props.clear_data()
-        console.log("list : componentWillUnmount")
+        this.props.clear_data(this.props.open_key)
     }
 
     list_player = () => {
@@ -22,14 +20,14 @@ class ListPlayer extends Component {
                 return(
                     <tbody key={value}>
                         <tr>
-                            <td>#</td>
+                            <th>#</th>
                             <td>{player.name}</td>
                             <td>{player.club}</td>
                             <td>{player.cabeza_serie ? "Si" :  "No"}</td>
                         </tr>
                     </tbody>
                 )
-            })
+            }).reverse()
         }else {
             return (
                 <tbody>
@@ -42,13 +40,12 @@ class ListPlayer extends Component {
         return list
     }
     
-
     render(){
         return(
             <section className="hero">
                 <div className="hero-body">
-                    <b className="title is-4">Jugadores</b>
-                    <table className="table is-narrow">
+                    <b className="title is-4">Jugadores</b> <br/>
+                    <table className="table is-narrow subtitle">
                         <thead>
                             <tr>
                                 <th><abbr title="Position">Pos</abbr></th>
@@ -74,18 +71,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load_players: (open_key) => {
-            console.log('dispatch load players')
+        load_players: (open_key) => {        
             var ref = firebase.database().ref("open/"+ open_key +"/players")
             ref.on("child_added", function(snapshot, prevChildKey) {
                 var players = snapshot.val()
-                //console.log(snapshot.val())
                 dispatch({type: 'PLAYER_LIST', data: players})
             })
-
         },
-        clear_data: () => {
+        clear_data: (open_key) => {
             dispatch({type: 'PLAYER_CLEAR'})
+            // clear listener 
+            var ref = firebase.database().ref("open/"+ open_key +"/players")
+            ref.off("child_added")
         },
         clear_open_key: () => {
             dispatch({type: 'OPEN_KEY_CLEAR'})

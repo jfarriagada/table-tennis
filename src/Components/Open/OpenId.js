@@ -12,12 +12,13 @@ import Llave from '../Llave/Llave'
 class OpenId extends Component {
 
     constructor(props) {
-        super(props);
-        this.state = {nav: "player"};
+        super(props)
+        this.state = {nav: "player"}
     
         // This binding is necessary to make `this` work in the callback
-        this.handleClickPlayer = this.handleClickPlayer.bind(this);
-        this.handleClickLlave = this.handleClickLlave.bind(this);
+        this.handleClickPlayer = this.handleClickPlayer.bind(this)
+        this.handleClickLlave = this.handleClickLlave.bind(this)
+        this.handleClickGrupo = this.handleClickGrupo.bind(this)
     }
     
     componentWillMount(){
@@ -42,16 +43,16 @@ class OpenId extends Component {
         this.setState({nav : "llave"})
     }
 
-    show(nav) {
+    show() {
         console.log("show nav : " + this.props.open_key)
-        if (nav === "grupo") {
+        if (this.state.nav === "grupo") {
             return(
                 <div>
                     <CreateGrupo />
                 </div>
             )
         }
-        else if (nav === "llave") {
+        else if (this.state.nav === "llave") {
             return(
                 <div className="columns">
                     <Llave />
@@ -71,7 +72,7 @@ class OpenId extends Component {
 
         return(
             <div>
-                <div className="columns">
+                <div className="columns">           
                     <div className="column">
                         <p className="title">{this.props.open_item.name} - {this.props.open_item.city}</p>
                     </div>
@@ -79,10 +80,10 @@ class OpenId extends Component {
                         <button onClick={this.handleClickPlayer}>Jugadores</button>
                         <button onClick={this.handleClickGrupo}>Grupos</button>
                         <button onClick={this.handleClickLlave}>Llaves</button>
-                    </div>
+                    </div>        
                 </div>
-                <div className="columns">
-                    <h1 className="title">{this.show(this.state.nav)}</h1>
+                <div>
+                    {this.show()}
                 </div>
             </div>
         )

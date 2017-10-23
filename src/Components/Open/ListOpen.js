@@ -21,7 +21,7 @@ class ListOpen extends Component {
             return(
                 <h2 key={o.key} className="subtitle"><Link to={`/open/${o.key}/openid`}>{open.name} - {open.city} - {open.category}</Link></h2>
             )
-        })
+        }).reverse()
         return list
     }
     
