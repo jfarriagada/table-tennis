@@ -3,15 +3,22 @@ GRUPO
     - 1 jugador cabeza de serie
     - 3 jugadores no cabeza de serie
 + El nombre del grupo son letras sucesivas del abecedario
-+ Si no hay jugadoes CS para el grupo, se eligen jugadores no CS 
++ Si no hay jugadoes cabeza de serie para el grupo, se eligen jugadores que no son cabeza de serie
 
-    - 2 Arrays
-        * Jugadores cabezas de serie
-        * Jugadores no cabezas de serie
 
 SET
 + 2 Ptos ganador
 + 0 Ptos perdedor
 
-ABECEDARIO 
-a b c d e f g h i j k l m n ñ o p q r s t u v w x y z
+
++ Historia
+Entro a "Grupo"
+Pueden haber o no grupos, depende de su estado, si esta o no cerrada la inscripción.
+
+
++ Algoritmo 
+* definir cantidad de grupos dependiendo de los jugadores
+* push jugadores a su respectivo grupo
+
+
+const ABECEDARIO = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']

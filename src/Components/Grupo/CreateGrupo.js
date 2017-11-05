@@ -3,122 +3,149 @@ import { connect } from 'react-redux'
 import firebase from 'firebase'
 import { reset } from 'redux-form'
 // Component
+import Message from '../StateLess/Message'
 
-// Array jugadores
-var players_cs = []
-var players_no_cs = []
 
 class CreateGrupo extends Component {
 
     componentDidMount(){
-        
-        /* 
-            Detectar si el numero de Jugadores ha cambiado,
-            Si ha cambiado se actualizan los grupos, si no ha cambiado quedan igual
-        */
-        /*var players = firebase.database().ref(`open/${this.props.open_key}/players`)
-        players.on('child_added', function(snapshot) {
+        // validation for created groups
+        if(this.props.suscription_close === true && this.props.created_group_ok === false){
 
-        })*/
-        
-        
+            const ABECEDARIO = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
-        // Jugadores 
-        this.list_player()
+            /*
+             define groups and players for group
+            */
+            var groups = Math.floor(this.props.player.length / 4)
+            const loose_players = this.props.player.length % 4
+            const for_group = []
 
-        // Obtener los grupos a partir de los jugadores
-        var grupos = Math.floor(this.props.player.length / 4)
-        var jugadores_sueltos = this.props.player.length % 4
-
-        var ref = firebase.database().ref(`open/${this.props.open_key}/grupos`)
-        
-        var cs = 0
-        var nocs = 0
-        for (var i=0; i < grupos; i++) {
-
-            if (cs < players_cs.length) {
-                if (nocs < players_no_cs.length) {
-                    /*console.log('cs : ' + players_cs[cs].name)
-                    console.log('no cs : ' + players_no_cs[nocs].name)
-                    console.log('no cs : ' + players_no_cs[nocs+1].name)
-                    console.log('no cs : ' + players_no_cs[nocs+2].name)*/
-
-                    // save firebase grupo
-                    /*ref.push({
-                        name: "letra" + i,
-                        player1: players_cs[cs],
-                        player2: players_no_cs[nocs],
-                        player3: players_no_cs[nocs+1],
-                        player4: players_no_cs[nocs+2]
-                    })
-                    .catch(response => console.log(response))
-                    .catch(error => console.log(error))*/
-
-                    nocs += 3
-                }   
-                cs++
-            } else {
-                if (nocs < players_no_cs.length) {
-                    /*console.log('NO cs : ' + players_no_cs[nocs].name)
-                    console.log('NO cs : ' + players_no_cs[nocs+1].name)
-                    console.log('NO cs : ' + players_no_cs[nocs+2].name)
-                    console.log('NO cs : ' + players_no_cs[nocs+4].name)*/
-
-                    // save firebase grupo
-                    /*ref.push({
-                        name: "letra" + i,
-                        player1: players_no_cs[nocs],
-                        player2: players_no_cs[nocs+1],
-                        player3: players_no_cs[nocs+2],
-                        player4: players_no_cs[nocs+3]
-                    })
-                    .catch(response => console.log(response))
-                    .catch(error => console.log(error))*/
-
-                    nocs += 4
-                }  
+            if(loose_players === 0){
+                for (let index = 0; index < groups; index++) {
+                    for_group.push(4)
+                }
+            } else if (loose_players === 1){
+                for (let index = 0; index < groups; index++) {
+                    if(index === 0){ for_group.push(5) } else { for_group.push(4) }
+                }
+            } else if (loose_players === 2){
+                for (let index = 0; index < groups; index++) {
+                    if(index === 0 || index === 1){ for_group.push(5) } else { for_group.push(4) }
+                }
+            } else if (loose_players === 3){
+                // create a new group
+                groups += 1
+                for (let index = 0; index < groups; index++) {
+                    if(index === 0 ){ for_group.push(3) } else { for_group.push(4) }
+                }
             }
+
+            console.log(for_group)
+
+            // one cabeza de serie by group (cs == n group)
+            const all_players = []
+            const players = []
+            const cs_players = []
+            this.props.player.map((player_key) => { 
+                let p = player_key.val()
+                all_players.push({playerId:player_key.key, club:p.club, cs:p.cabeza_serie, has_gruop: false})
+                if(p.cabeza_serie === true){
+                    cs_players.push({playerId:player_key.key, club:p.club, cs:p.cabeza_serie, has_gruop: false})
+                }else {
+                    players.push({playerId:player_key.key, club:p.club, cs:p.cabeza_serie, has_gruop: false})
+                }
+            })
+
+            if(for_group.length < cs_players.length){
+                console.log("Error: existen mas jugadores cabezas de serie que grupos, deseleccione x jugadores para que no sean cabezas de serie")                
+            }
+
+            /*
+             push players in groups
+            */
+            var group = []
+
+            for (let index = 0; index < for_group.length; index++) {
+                const n = for_group[index]
+                console.log(`Grupo : ${index} tiene ${n} jugadores`) 
+
+                if (cs_players[index] !== undefined) {
+                    group.push(cs_players[index])
+                    cs_players[index].has_gruop = true
+                }
+
+                for (let i = 0; i < players.length; i++) {
+                    if (group.length < n && players[i].has_gruop === false) {
+                        group.push(players[i])
+                        players[i].has_gruop = true
+                    }
+                } 
+
+                if(group.length === n){
+                    var ref = firebase.database().ref(`open/${this.props.open_key}/grupos`)
+                    if(n === 5){
+                        ref.push({
+                            name: `Grupo ${ABECEDARIO[index]}`,
+                            players : { player1: group[0].playerId,
+                                        player2: group[1].playerId,
+                                        player3: group[2].playerId,
+                                        player4: group[3].playerId,
+                                        player5: group[4].playerId}
+                        })
+                        group = []
+                    } else if(n === 4){
+                        ref.push({
+                            name: `Grupo ${ABECEDARIO[index]}`,
+                            players : { player1: group[0].playerId,
+                                        player2: group[1].playerId,
+                                        player3: group[2].playerId,
+                                        player4: group[3].playerId}
+                        })
+                        group = []
+                    } else if(n === 3){
+                        ref.push({
+                            name: `Grupo ${ABECEDARIO[index]}`,
+                            players : { player1: group[0].playerId,
+                                        player2: group[1].playerId,
+                                        player3: group[2].playerId}
+                        })
+                        group = []
+                    } 
+                }
+                 
+            }
+            // finish created group
+            this.props.created_group(this.props.open_key)
         }
-    }   
-
-    componentWillUnmount(){
-        this.props.clear_players()
     }
-    
 
-    // Crear arrays de jugadores cabezas se serie y no cabezas de serie
-    list_player = () => {
-        const list = this.props.player.map((player) => {
-            if(player.cabeza_serie === true){
-                players_cs.push(player)
-            } else {
-                players_no_cs.push(player)
-            }
-        })
-    }
     
-    render(){
-        return(
-            <section className="hero"> 
-                <div className="hero-body">        
-                    <h1 className="title">Crear Campeonato</h1>
-                </div>
-            </section>
+    render() {
+        return (
+            <div>
+                { this.props.created_group_ok ? "Grupos" : 
+                    <Message text="Debe cerrar las inscripciones para crear los grupos." />}
+            </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
+        suscription_close : state.suscription_close,
+        player: state.player,
         open_key: state.open_key,
-        player: state.player
+        created_group_ok: state.created_group
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        clear_players: () => {
-            dispatch({type: 'PLAYER_CLEAR'})
+        created_group: (open_key) => {
+            var ref = firebase.database().ref().child(`open/${open_key}`)
+            ref.update({created_group: true})
+            dispatch({type: 'CREATED_GROUP', data: true})
         }
     }
 }

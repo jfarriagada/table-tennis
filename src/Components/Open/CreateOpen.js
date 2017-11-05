@@ -17,6 +17,7 @@ const CreateOpen = (props) => {
             name: data.name,
             city: data.city,
             category : data.category,
+            suscription_close: false
         })
         .then(function(response){
             console.log(response)

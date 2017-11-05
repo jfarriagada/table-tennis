@@ -62,10 +62,31 @@ const player = (state=[], action) => {
     switch (action.type) {
         case 'PLAYER_LIST':
             new_state = state.concat(action.data)
-            console.log(action.data)
             return new_state
         case 'PLAYER_CLEAR':
             new_state = []
+            return new_state
+        default:
+            return state
+    }
+}
+
+const suscription_close = (state=false, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'SUSCRIPTION_CLOSE':
+            new_state = action.data
+            return new_state
+        default:
+            return state
+    }
+}
+
+const created_group = (state=false, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'CREATED_GROUP':
+            new_state = action.data
             return new_state
         default:
             return state
@@ -78,7 +99,9 @@ const reducer = combineReducers({
     open,
     open_item,
     open_key,
-    player
+    player,
+    suscription_close,
+    created_group
 })
 
 const store = createStore(reducer)
