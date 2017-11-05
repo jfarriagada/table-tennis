@@ -18,10 +18,7 @@ const CreatePlayer = (props) => {
             category: data.category,
             cabeza_serie: data.cabeza_serie
         })
-        .then(function(response){
-            console.log(response)
-            props.clear()
-        })
+        .then((response) => props.clear())
         .catch(error => console.log(error))
     }
     
@@ -46,7 +43,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         clear: () => {
             dispatch(reset('syncValidationPlayer'))
-        },
+        }
     }
 }
 

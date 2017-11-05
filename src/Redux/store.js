@@ -8,7 +8,6 @@ const session = (state={}, action) => {
     var new_state = Object.assign({}, state)
     switch (action.type) {
         case 'USER_AUTH':
-            console.log('dispatch -> store user auth')
             new_state = action.user
             return new_state
         case 'USER_LOGOUT':
@@ -72,13 +71,37 @@ const player = (state=[], action) => {
     }
 }
 
+const suscription_close = (state=false, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'SUSCRIPTION_CLOSE':
+            new_state = action.data
+            return new_state
+        default:
+            return state
+    }
+}
+
+const created_group = (state=false, action) => {
+    var new_state = Object.assign({}, state)
+    switch (action.type) {
+        case 'CREATED_GROUP':
+            new_state = action.data
+            return new_state
+        default:
+            return state
+    }
+}
+
 const reducer = combineReducers({
     form: formReducer,
     session,
     open,
     open_item,
     open_key,
-    player
+    player,
+    suscription_close,
+    created_group
 })
 
 const store = createStore(reducer)
